@@ -22,6 +22,7 @@ document.addEventListener('DOMContentLoaded', () => {
 					return response.json();
 				})
 				.then(data => {
+					app_body.classList.remove('placeholder');
 					weather_location.textContent = data.timezone;
 					// Get current weather
 					const { time, summary, icon, temperature } = data.currently;
@@ -29,8 +30,8 @@ document.addEventListener('DOMContentLoaded', () => {
 					let weather_current_time = convert_time(time);
 					weather_time.innerText = weather_current_time.hours + ':' + weather_current_time.minutes + 'h';
 					weather_icon.setAttribute('d', render_icons(icon));
-					app_body.classList = icon;
-					weather_temperature.innerText = Math.round(temperature);
+					app_body.classList.add(icon);
+					weather_temperature.innerHTML = Math.round(temperature) + '&deg;C';
 
 					// Get hourly weather
 					const weather_data = data.hourly.data;
