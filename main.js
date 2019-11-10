@@ -15,7 +15,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 			const current_time = convert_time();
 			const proxy = 'https://cors-anywhere.herokuapp.com/';
-			const api = `${ proxy }https://api.darksky.net/forecast/2ed36afef21571720a5e8bd9ac749ac2/${ lat },${ long },${ current_time }?lang=sr&units=si`;
+			const api = `https://api.darksky.net/forecast/2ed36afef21571720a5e8bd9ac749ac2/${ lat },${ long },${ current_time }?lang=sr&units=si`;
 
 			fetch(api)
 				.then(response => {
