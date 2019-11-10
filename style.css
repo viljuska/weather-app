@@ -1,0 +1,245 @@
+* {
+	box-sizing:  border-box;
+	margin:      0;
+	padding:     0;
+	font-family: 'Lato', sans-serif;
+}
+
+body {
+	min-height:       100vh;
+	background-color: aliceblue;
+	padding:          50px 0;
+}
+
+svg {
+	max-width:         100%;
+	stroke-linecap:    round;
+	stroke-linejoin:   round;
+	stroke-miterlimit: 10;
+	stroke-width:      10;
+	fill:              none;
+}
+
+button {
+	background: transparent;
+	border:     none;
+	cursor:     pointer;
+}
+
+button:focus {
+	outline: 0;
+}
+
+[class$='day'],
+[class$='day'] svg {
+	color:  #f2f2f2;
+	stroke: #f2f2f2;
+}
+
+[class$='night'],
+[class$='night'] svg {
+	color:  #a2d1e1;
+	stroke: #a2d1e1;
+}
+
+.clear-day {
+	background-image: linear-gradient(to bottom, #19c3fb 30%, #5af0f6 100%);
+}
+
+.partly-cloudy-day {
+	background-image: linear-gradient(to bottom, #50d4ff 30%, #9eb7c7 100%);
+}
+
+.stormy-day {
+	background-image: linear-gradient(to bottom, #1860a8 40%, #607878 100%);
+}
+
+.clear-night {
+	background-image: linear-gradient(to bottom, #092237 70%, #0c3352 100%);
+}
+
+.partly-cloudy-night {
+	background-image: linear-gradient(to bottom, #092237 60%, #668599 100%);
+}
+
+.stormy-night {
+	background-image: linear-gradient(to bottom, #092237 40%, #607878 100%);
+}
+
+.container {
+	max-width: 1200px;
+	margin:    0 auto;
+}
+
+.weather-current {
+	display:         flex;
+	flex-flow:       row wrap;
+	justify-content: center;
+	align-items:     flex-start;
+	margin-bottom:   100px;
+}
+
+.weather-heading {
+	flex:          0 0 70%;
+	text-align:    center;
+	margin-bottom: 25px;
+}
+
+.weather-location {
+	margin-bottom: 20px;
+}
+
+.weather-location h1,
+.weather-time {
+	display: inline-block;
+}
+
+.weather-time {
+	font-size:   24px;
+	margin-left: 15px;
+}
+
+.weather-description {
+	font-size: 19px;
+}
+
+.weather-data {
+	flex:       0 0 50%;
+	text-align: center;
+}
+
+.weather-data_icon-container {
+	margin:    0 auto 25px;
+	max-width: 150px;
+}
+
+.weather-data_temperature {
+	font-size: 28px;
+}
+
+.weather-data_temperature p {
+	display: inline-block;
+}
+
+.weather-hourly-container {
+	position: relative;
+}
+
+.weather-hourly {
+	max-width:       80%;
+	display:         flex;
+	flex-flow:       row nowrap;
+	align-items:     center;
+	overflow:        hidden;
+	margin:          30px auto;
+	padding:         20px 0;
+	scroll-behavior: smooth;
+}
+
+.weather-hourly_controls {
+	position:        absolute;
+	top:             50%;
+	left:            0;
+	right:           0;
+	transform:       translateY(-50%);
+	display:         flex;
+	flex-flow:       row wrap;
+	align-items:     center;
+	justify-content: space-between;
+}
+
+.weather-hourly_controls .btn {
+	width:      50px;
+	height:     50px;
+	position:   relative;
+	transform:  scale(0.9);
+	transition: 250ms all ease;
+}
+
+.weather-hourly_controls .btn:hover {
+	transform: scale(1);
+}
+
+.weather-hourly_controls .btn-left:active {
+	transform: scale(1) translateX(-2px);
+}
+
+.weather-hourly_controls .btn-right:active {
+	transform: scale(1) translateX(2px);
+}
+
+.weather-hourly_controls .btn::after {
+	content:       '';
+	display:       block;
+	border-bottom: 4px solid;
+	height:        50%;
+	width:         50%;
+}
+
+.weather-hourly_controls .btn-left::after {
+	border-left: 4px solid;
+	transform:   rotate(45deg) translate(50%, -50%);
+}
+
+.weather-hourly_controls .btn-right::after {
+	border-right: 4px solid;
+	transform:    rotate(-45deg);
+}
+
+.weather_hour {
+	flex:          1 0 calc(25% - 30px);
+	padding:       50px 10px;
+	margin:        0 15px;
+	text-align:    center;
+	border-radius: 5px;
+	transition:    250ms all ease;
+}
+
+.weather_hour:hover {
+	transform: scale(1.1);
+}
+
+.weather_hour.clear-day {
+	box-shadow: 0 0 10px 0 rgba(25, 195, 251, 0.5);
+}
+
+.weather_hour.partly-cloudy-day {
+	box-shadow: 0 0 10px 0 rgba(184, 184, 184, 0.5);
+}
+
+.weather_hour.stormy-day {
+	box-shadow: 0 0 10px 0 rgba(96, 120, 120, 0.5);
+}
+
+.weather_hour.clear-night {
+	box-shadow: 0 0 10px 0 rgba(12, 51, 82, 0.5);
+}
+
+.weather_hour.partly-cloudy-night {
+	box-shadow: 0 0 10px 0 rgba(102, 133, 153, 0.5);
+}
+
+.weather_hour.stormy-night {
+	box-shadow: 0 0 10px 0 rgba(96, 120, 120, 0.5);
+}
+
+.weather_hour p:not(:last-of-type) {
+	margin-bottom: 10px;
+}
+
+.weather_time {
+	font-size: 19px;
+}
+
+.weather_icon {
+	max-width:     50px;
+	margin-bottom: 10px;
+}
+
+.weather_temperature {
+	font-size: 17px;
+}
+
+.weather_summ {
+	font-size: 15px;
+}

@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="rs-SR">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>Weather app</title>
+	<link href="https://fonts.googleapis.com/css?family=Lato:300,400,700&display=swap&subset=latin-ext" rel="stylesheet">
+	<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="container">
+	<div class="weather-current">
+		<div class="weather-heading">
+			<div class="weather-location">
+				<h1></h1>
+				<p class="weather-time"></p>
+			</div>
+			<p class="weather-description"></p>
+		</div>
+		<div class="weather-data">
+			<div class="weather-data_icon-container">
+				<svg version="1.1" class="weather-data_icon" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px"
+				     viewBox="0 0 162 160.7" xml:space="preserve">
+					<path d="" />
+				</svg>
+			</div>
+			<div class="weather-data_temperature">
+				<p></p>
+				<span>&deg;C</span>
+			</div>
+		</div>
+	</div>
+	<div class="weather-hourly-container">
+		<div class="weather-hourly"></div>
+		<div class="weather-hourly_controls">
+			<button type="button" class="btn btn-left" data-item=".weather-hourly" data-direction="left"></button>
+			<button type="button" class="btn btn-right" data-item=".weather-hourly" data-direction="right"></button>
+		</div>
+	</div>
+</div>
+<script defer src="skycon.js"></script>
+<script defer src="main.js"></script>
+</body>
+</html>
