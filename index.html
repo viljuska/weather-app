@@ -10,6 +10,11 @@
 </head>
 <body class="placeholder">
 <div class="container">
+	<div class="weather-interaction">
+		<input type="text" id="city" placeholder="Enter city name" value="">
+		<button type="button" id="get-location">Get your location</button>
+		<button type="button" id="get-weather" data-lat="" data-long="" disabled>Get weather</button>
+	</div>
 	<div class="weather-current">
 		<div class="weather-heading">
 			<div class="weather-location">
@@ -59,12 +64,11 @@
 			</div>
 		</div>
 		<div class="weather-hourly_controls">
-			<button type="button" class="btn btn-left" data-item=".weather-hourly" data-direction="left"></button>
-			<button type="button" class="btn btn-right" data-item=".weather-hourly" data-direction="right"></button>
+			<button type="button" class="btn btn-left" data-item=".weather-hourly" data-direction="right"></button>
+			<button type="button" class="btn btn-right" data-item=".weather-hourly" data-direction="left"></button>
 		</div>
 	</div>
 </div>
-<script defer src="skycon.js"></script>
 <script defer src="main.js"></script>
 </body>
 </html>

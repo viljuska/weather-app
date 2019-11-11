@@ -111,7 +111,7 @@ button:focus {
 	background-image: linear-gradient(to bottom, #50d4ff 30%, #9eb7c7 100%);
 }
 
-.stormy-day {
+.cloudy {
 	background-image: linear-gradient(to bottom, #1860a8 40%, #607878 100%);
 }
 
@@ -123,13 +123,26 @@ button:focus {
 	background-image: linear-gradient(to bottom, #092237 60%, #668599 100%);
 }
 
-.stormy-night {
+.rain {
+	background-image: linear-gradient(to bottom, #092237 40%, #607878 100%);
+}
+
+.sleet {
+	background-image: linear-gradient(to bottom, #092237 40%, #607878 100%);
+}
+
+.snow {
+	background-image: linear-gradient(to bottom, #092237 40%, #607878 100%);
+}
+
+.wind {
 	background-image: linear-gradient(to bottom, #092237 40%, #607878 100%);
 }
 
 .container {
 	max-width: 1200px;
 	margin:    0 auto;
+	padding:   0 15px;
 }
 
 .weather-current {
@@ -306,4 +319,65 @@ button:focus {
 
 .weather_summ {
 	font-size: 15px;
+}
+
+@media screen and (max-width: 1280px) {
+	.container {
+		max-width: 960px;
+	}
+}
+
+@media screen and (max-width: 991px) {
+	.container {
+		max-width: 760px;
+	}
+}
+
+@media screen and (max-width: 767px) {
+	.container {
+		max-width: 540px;
+	}
+
+	.weather-current {
+		margin-bottom: 60px;
+	}
+
+	.weather_hour {
+		flex: 1 0 calc(50% - 30px);
+	}
+}
+
+@media screen and (max-width: 575px) {
+	.container {
+		max-width: 100%;
+	}
+
+	.weather-heading {
+		flex-grow: 1;
+	}
+
+	.placeholder h1 {
+		width: 100%;
+	}
+
+	.weather-location h1,
+	.weather-time {
+		display: block;
+	}
+
+	.weather-data {
+		flex-basis: 80%;
+	}
+
+	.weather-hourly_controls .btn-left::after {
+		transform: rotate(45deg) translate(0, 0);
+	}
+
+	.weather-hourly_controls .btn-right::after {
+		transform: rotate(45deg) translate(40%, 40%);
+	}
+
+	.weather_hour {
+		flex-basis: calc(100% - 30px);
+	}
 }

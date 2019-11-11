@@ -1,7 +1,69 @@
 document.addEventListener('DOMContentLoaded', () => {
-	if ( navigator.geolocation ) {
-		let lat, long,
-			app_body = document.body,
+	let lat, long,
+		btn_location = document.querySelector('#get-location'),
+		btn_weather = document.querySelector('#get-weather'),
+		city_name = document.querySelector('#city'),
+		city_coords = '';
+
+	btn_location.addEventListener('click', () => {
+		get_city(city_name.value);
+	});
+
+	btn_weather.addEventListener('click', () => {
+		get_weather();
+	});
+
+	city_name.addEventListener('keyup', function () {
+		this.value.length > 2 ? btn_weather.disabled = false : btn_weather.disabled = true;
+	});
+
+	function get_city(location = '') {
+		const api_key = '0707cbcfc896401fbe242c5c215554f6';
+		const options = 'language=native&no_annotations=1&pretty=1&min_confidence=7';
+		const url = 'https://api.opencagedata.com/geocode/v1/json';
+
+		if ( location === '' && navigator.geolocation ) {
+			navigator.geolocation.getCurrentPosition(position => {
+				lat = position.coords.latitude;
+				long = position.coords.longitude;
+				let api_url = `${ url }?q=${ lat },${ long }&key=${ api_key }&${ options }`;
+
+				fetch(api_url)
+					.then(response => {
+						return response.json();
+					})
+					.then(data => {
+						const city = data.results[0];
+						city_name.value = city.components.city_district + ', ' + city.components.city;
+						btn_weather.dataset.lat = city.geometry.lat;
+						btn_weather.dataset.long = city.geometry.lng;
+						btn_weather.disabled = false;
+					})
+					.catch(err => {
+						console.log('Error:' + err);
+					});
+			});
+		} else {
+			let api_url = `${ url }?q=${ location }&key=${ api_key }&${ options }`;
+			fetch(api_url)
+				.then(response => {
+					return response.json();
+				})
+				.then(data => {
+					const city = data.results[0];
+					city_coords = {
+						lat: city.geometry.lat,
+						long: city.geometry.lng
+					}
+				})
+				.catch(err => {
+					console.log('Error:' + err);
+				});
+		}
+	}
+
+	function get_weather() {
+		let app_body = document.body,
 			weather_location = document.querySelector('.weather-location h1'),
 			weather_time = document.querySelector('.weather-time'),
 			weather_description = document.querySelector('.weather-description'),
@@ -9,38 +71,34 @@ document.addEventListener('DOMContentLoaded', () => {
 			weather_temperature = document.querySelector('.weather-data_temperature p'),
 			weather_hourly = document.querySelector('.weather-hourly');
 
-		navigator.geolocation.getCurrentPosition(position => {
-			lat = position.coords.latitude;
-			long = position.coords.longitude;
+		const current_time = convert_time();
+		const proxy = 'https://cors-anywhere.herokuapp.com/';
+		const api = `${ proxy }https://api.darksky.net/forecast/2ed36afef21571720a5e8bd9ac749ac2/${ lat },${ long },${ current_time }?lang=sr&units=si`;
 
-			const current_time = convert_time();
-			const proxy = 'https://cors-anywhere.herokuapp.com/';
-			const api = `https://api.darksky.net/forecast/2ed36afef21571720a5e8bd9ac749ac2/${ lat },${ long },${ current_time }?lang=sr&units=si`;
+		fetch(api)
+			.then(response => {
+				return response.json();
+			})
+			.then(data => {
+				app_body.classList.remove('placeholder');
+				weather_location.textContent = data.timezone;
+				// Get current weather
+				const { time, summary, icon, temperature } = data.currently;
+				weather_description.textContent = summary;
+				let weather_current_time = convert_time(time);
+				weather_time.innerText = weather_current_time.hours + ':' + weather_current_time.minutes + 'h';
+				weather_icon.setAttribute('d', render_icons(icon));
+				app_body.classList.add(icon);
+				weather_temperature.innerHTML = Math.round(temperature) + '&deg;C';
 
-			fetch(api)
-				.then(response => {
-					return response.json();
-				})
-				.then(data => {
-					app_body.classList.remove('placeholder');
-					weather_location.textContent = data.timezone;
-					// Get current weather
-					const { time, summary, icon, temperature } = data.currently;
-					weather_description.textContent = summary;
-					let weather_current_time = convert_time(time);
-					weather_time.innerText = weather_current_time.hours + ':' + weather_current_time.minutes + 'h';
-					weather_icon.setAttribute('d', render_icons(icon));
-					app_body.classList.add(icon);
-					weather_temperature.innerHTML = Math.round(temperature) + '&deg;C';
-
-					// Get hourly weather
-					const weather_data = data.hourly.data;
-					const cur_time = Date.now();
-					let weather_hourly_html = '';
-					weather_data.forEach((weather, index) => {
-						if ( weather.time * 1000 > cur_time ) {
-							let weather_time = convert_time(weather.time);
-							weather_hourly_html += `<div class="weather_hour ${ weather.icon }">
+				// Get hourly weather
+				const weather_data = data.hourly.data;
+				const cur_time = Date.now();
+				let weather_hourly_html = '';
+				weather_data.forEach((weather, index) => {
+					if ( weather.time * 1000 > cur_time ) {
+						let weather_time = convert_time(weather.time);
+						weather_hourly_html += `<div class="weather_hour ${ weather.icon }">
 											     <p class="weather_time">${ weather_time.hours }</p>
 											     <svg version="1.1" class="weather_icon" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px"
 				                                    viewBox="0 0 162 160.7" xml:space="preserve">
@@ -49,27 +107,24 @@ document.addEventListener('DOMContentLoaded', () => {
 											     <p class="weather_temperature">${ Math.round(weather.temperature) }&deg;C</p>
 											     <p class="weather_summ">${ weather.summary }</p>
 										     </div>`;
-						}
-					});
-					weather_hourly.innerHTML = weather_hourly_html;
-
-					// Add event listener to buttons
-					let buttons = document.querySelectorAll('.weather-hourly_controls .btn');
-					buttons.forEach(button => {
-						button.addEventListener('click', function () {
-							let item_to_scroll = document.querySelector(this.dataset.item);
-							let direction_to_scroll = this.dataset.direction;
-							scroll_item(item_to_scroll, 150, direction_to_scroll);
-						});
-					});
-
-				})
-				.catch(err => {
-					console.log('Error:' + err);
+					}
 				});
-		}, err => {
-			console.log('Error:' + err);
-		});
+				weather_hourly.innerHTML = weather_hourly_html;
+
+				// Add event listener to buttons
+				let buttons = document.querySelectorAll('.weather-hourly_controls .btn');
+				buttons.forEach(button => {
+					button.addEventListener('click', function () {
+						let item_to_scroll = document.querySelector(this.dataset.item);
+						let direction_to_scroll = this.dataset.direction;
+						scroll_item(item_to_scroll, 150, direction_to_scroll);
+					});
+				});
+
+			})
+			.catch(err => {
+				console.log('Error:' + err);
+			});
 	}
 
 	function convert_time(time = '') {
