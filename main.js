@@ -1,19 +1,29 @@
 document.addEventListener('DOMContentLoaded', () => {
-	let lat, long,
+	let lat, long, coords,
 		btn_location = document.querySelector('#get-location'),
 		btn_weather = document.querySelector('#get-weather'),
-		city_name = document.querySelector('#city'),
-		city_coords = '';
+		city_coords = document.querySelector('#city');
 
 	btn_location.addEventListener('click', () => {
-		get_city(city_name.value);
+		if ( navigator.geolocation ) {
+			navigator.geolocation.getCurrentPosition(position => {
+				lat = position.coords.latitude;
+				long = position.coords.longitude;
+
+				city_coords.value = +lat.toFixed(4) + ' ' + +long.toFixed(4);
+				get_weather(lat, long);
+			})
+		}
 	});
 
 	btn_weather.addEventListener('click', () => {
-		get_weather();
+		coords = city_coords.value.split(' ');
+		lat = coords[0];
+		long = coords[1];
+		get_weather(lat, long);
 	});
 
-	city_name.addEventListener('keyup', function () {
+	city_coords.addEventListener('keyup', function () {
 		this.value.length > 2 ? btn_weather.disabled = false : btn_weather.disabled = true;
 	});
 
@@ -62,7 +72,7 @@ document.addEventListener('DOMContentLoaded', () => {
 		}
 	}
 
-	function get_weather() {
+	function get_weather(lat, long) {
 		let app_body = document.body,
 			weather_location = document.querySelector('.weather-location h1'),
 			weather_time = document.querySelector('.weather-time'),
@@ -82,6 +92,7 @@ document.addEventListener('DOMContentLoaded', () => {
 			.then(data => {
 				app_body.classList.remove('placeholder');
 				weather_location.textContent = data.timezone;
+
 				// Get current weather
 				const { time, summary, icon, temperature } = data.currently;
 				weather_description.textContent = summary;
