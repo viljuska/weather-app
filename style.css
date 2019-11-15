@@ -31,6 +31,10 @@ button:focus {
 	outline: 0;
 }
 
+button[disabled] {
+	opacity: 0.7;
+}
+
 .placeholder h1,
 .placeholder .weather-time,
 .placeholder .weather-description,
@@ -143,6 +147,73 @@ button:focus {
 	max-width: 1200px;
 	margin:    0 auto;
 	padding:   0 15px;
+}
+
+.weather-interaction input,
+.weather-interaction button {
+	height: 45px;
+}
+
+.weather-interaction input {
+	border:                  none;
+	background:              rgba(255, 255, 255, 0.3);
+	-webkit-backdrop-filter: blur(10px);
+	backdrop-filter:         blur(10px);
+	padding:                 10px 20px;
+	font-size:               19px;
+	height:                  45px;
+}
+
+.weather-interaction button {
+	height:        45px;
+	min-width:     45px;
+	font-size:     19px;
+	background:    #ccc;
+	padding:       10px 15px;
+	color:         #363636;
+	border-radius: 5px;
+}
+
+#get-location svg {
+	width:            20px;
+	height:           20px;
+	fill:             #363636;
+	transform:        rotate(45deg);
+	transform-origin: center;
+}
+
+#get-location.getting svg {
+	animation: rotate 3s infinite ease-in-out 0.5s;
+}
+
+@keyframes rotate {
+	0% {
+		transform: rotate(45deg) translate(0px, -10px);
+	}
+	15% {
+		transform: rotate(45deg) translate(0px, 0px);
+	}
+	25% {
+		transform: rotate(135deg) translate(0px, -10px);
+	}
+	35% {
+		transform: rotate(135deg) translate(0px, 0px);
+	}
+	50% {
+		transform: rotate(225deg) translate(0px, -10px);
+	}
+	65% {
+		transform: rotate(225deg) translate(0px, 0px);
+	}
+	75% {
+		transform: rotate(315deg) translate(0px, -10px);
+	}
+	85% {
+		transform: rotate(315deg) translate(0px, 0px);
+	}
+	100% {
+		transform: rotate(405deg) translate(0px, -10px);
+	}
 }
 
 .weather-current {

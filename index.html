@@ -12,8 +12,12 @@
 <div class="container">
 	<div class="weather-interaction">
 		<input type="text" id="city" placeholder="Enter Latitude Longitude" value="">
-		<button type="button" id="get-location">Get weather from your location</button>
-		<button type="button" id="get-weather" data-lat="" data-long="" disabled>Get weather from input</button>
+		<button type="button" id="get-location">
+			<svg version="1.1" id="gps-svg" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" viewBox="0 0 70 119" xml:space="preserve">
+				<path d="M26.5,10.5l-26,108c22.5-53.9,45.5-55.1,69,0l-25-108C40.5-2.5,31.5-3.5,26.5,10.5z" />
+			</svg>
+		</button>
+		<button type="button" id="get-weather" data-lat="" data-long="" disabled>Get weather</button>
 	</div>
 	<div class="weather-current">
 		<div class="weather-heading">

@@ -5,6 +5,8 @@ document.addEventListener('DOMContentLoaded', () => {
 		city_coords = document.querySelector('#city');
 
 	btn_location.addEventListener('click', () => {
+		// Start animating button when clicked and if user has allowed geo location
+		btn_location.classList.add('getting');
 		if ( navigator.geolocation ) {
 			navigator.geolocation.getCurrentPosition(position => {
 				lat = position.coords.latitude;
@@ -90,6 +92,9 @@ document.addEventListener('DOMContentLoaded', () => {
 				return response.json();
 			})
 			.then(data => {
+				// Remove animation after location and weather is successfull
+				btn_location.classList.remove('getting');
+
 				app_body.classList.remove('placeholder');
 				weather_location.textContent = data.timezone;
 
